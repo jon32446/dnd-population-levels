@@ -4,13 +4,21 @@ import PopulationInput from "./PopulationInput";
 import PopulationResult from "./PopulationResult";
 
 class PopulationCalculator extends Component {
-  state = {};
+  state = { population: 1000000 };
+
+  handlePopulationChange = (population) => {
+    if (population < 1) {
+      population = 1;
+    }
+    this.setState({ population });
+  };
+
   render() {
     return (
       <div>
-        <PopulationInput />
+        <PopulationInput onPopulationChange={this.handlePopulationChange} />
         <hr />
-        <PopulationResult />
+        <PopulationResult population={this.state.population} />
       </div>
     );
   }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import pareto from "../pareto.png";
 
 class PopulationInput extends Component {
-  state = {};
   render() {
     return (
       <div className="py-2">
@@ -14,7 +13,14 @@ class PopulationInput extends Component {
               </label>
             </div>
             <div class="col-lg-4 col-md-6">
-              <input type="email" class="form-control" id="worldPop" />
+              <input
+                type="number"
+                class="form-control"
+                id="worldPop"
+                onChange={(evt) =>
+                  this.props.onPopulationChange(evt.target.value)
+                }
+              />
             </div>
             <div class="form-group form-check col-lg-6 col-md-3">
               <div className="ml-3">
