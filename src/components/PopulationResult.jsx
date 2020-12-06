@@ -7,7 +7,7 @@ class PopulationResult extends Component {
   };
 
   getPopAtLevel = (totalPop, level) => {
-    const a = 1.3;
+    const a = parseFloat(this.props.shapeParameter);
     const m = 1;
     const x = level + 1;
     let fx = (a * m ** a) / x ** (a + 1) / a;
@@ -20,10 +20,12 @@ class PopulationResult extends Component {
     const format = new Intl.NumberFormat("en-GB").format;
 
     return this.state.popLevels.map((lvl) => (
-      <React.Fragment>
-        <div className="row mb-3 m-1">
-          <div className="col-md-3">Level {lvl}</div>
-          <div className="col-md-2 text-right">
+      <React.Fragment key={lvl}>
+        <div className="row mb-3 m-1" key={"row" + { lvl }}>
+          <div className="col-md-3" key={"level" + { lvl }}>
+            Level {lvl}
+          </div>
+          <div className="col-md-2 text-right" key={"pop" + { lvl }}>
             {format(this.getPopAtLevel(pop, lvl))}
           </div>
         </div>

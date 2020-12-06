@@ -7,47 +7,121 @@ class PopulationInput extends Component {
       <div className="py-2">
         <form>
           <div className="form-group row">
-            <div class="col-lg-2 col-md-3">
-              <label for="worldPop" class="col-form-label">
-                World population
+            <div className="col-lg-2 col-md-3">
+              <label htmlFor="population" className="col-form-label">
+                Population
               </label>
             </div>
-            <div class="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6">
               <input
                 type="number"
-                class="form-control"
-                id="worldPop"
+                className="form-control"
+                id="population"
                 onChange={(evt) =>
                   this.props.onPopulationChange(evt.target.value)
                 }
               />
             </div>
-            <div class="form-group form-check col-lg-6 col-md-3">
+            <div className="form-group form-check col-lg-6 col-md-3">
               <div className="ml-3">
                 <input
                   type="checkbox"
-                  class="form-check-input my-2"
+                  className="form-check-input my-2"
                   id="commonerBreakdown"
                 />
-                <label class="form-check-label" for="commonerBreakdown">
+                <label className="form-check-label" htmlFor="commonerBreakdown">
                   Break down commoners into trades and professions
                 </label>
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <label for="powerCurveFactor">Power curve factor</label>
+          <div className="form-group">
+            <label htmlFor="powerCurveFactor">
+              Shape Parameter (adjust power curve)
+              <sup>
+                <a
+                  data-toggle="collapse"
+                  href="#shapeParameterInfo"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="shapeParameterInfo"
+                >
+                  ?
+                </a>
+              </sup>
+              <span className="badge badge-light">
+                &nbsp;= {this.props.shapeParameter}
+              </span>
+            </label>
             <input
               type="range"
-              class="form-control-range"
+              className="form-control-range"
               id="powerCurveFactor"
+              min="0.1"
+              max="10"
+              value={this.props.shapeParameter}
+              step="0.05"
+              onChange={(evt) =>
+                this.props.onShapeParameterChange(evt.target.value)
+              }
             />
+            <p></p>
           </div>
         </form>
+        <div className="collapse mb-4" id="shapeParameterInfo">
+          <div className="card card-body">
+            <p>
+              The shape parameter (&alpha;) adjusts how quickly the power curve
+              falls off. A higher value will mean that the higher levels are
+              much more rare.
+            </p>
+            <p>
+              The Pareto principle (80-20 rule) applies to many real-world
+              distributions. For example, 80% of the people live in 20% of the
+              settlements; or, 80% of the oil is found in 20% of the oil fields.
+              The 80-20 rule corresponds to a shape parameter of
+              &alpha;&nbsp;&asymp;&nbsp;1.161.
+            </p>
+            <p>
+              If your fantasy world has experience points distributed among the
+              population in a similar way to how wealth or resources are
+              distributed in the real world, then set the scale parameter to
+              1.15 or 1.20.
+            </p>
+            <p>
+              If high level characters are much more rare in your fantasy world,
+              then set the scale parameter to a higher value.
+            </p>
+            <p>
+              The <i>Population</i> input can also be set to a the population of
+              a town, city or province to determine how many high level
+              characters to expect in that region.
+            </p>
+            <p>
+              The XP requirement for each character level in 5th Edition follows
+              an exponential curve that is approximately defined by the{" "}
+              <a href="https://www.desmos.com/calculator/ntxr8zoaq0">
+                following function
+              </a>
+              :
+              <br />
+              <i>
+                346.793 &times; lvl
+                <sup>2.34618</sup>
+              </i>{" "}
+              (with R&sup2; = 0.9988)
+            </p>
+          </div>
+        </div>
+
+        {
+          // replace this with plotly
+        }
         <img
           src={pareto}
           className="mx-auto"
           style={{ width: 300, display: "block" }}
+          alt="placeholder"
         />
       </div>
     );
