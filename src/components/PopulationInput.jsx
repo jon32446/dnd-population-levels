@@ -1,8 +1,17 @@
 import React, { Component } from "react";
-import pareto from "../pareto.png";
+import Plot from "react-plotly.js";
 
 class PopulationInput extends Component {
   render() {
+    const {
+      popLevels,
+      getPopAtLevel,
+      population,
+      shapeParameter,
+      onPopulationChange,
+      onShapeParameterChange,
+    } = this.props;
+
     return (
       <div className="py-2">
         <form>
@@ -17,9 +26,9 @@ class PopulationInput extends Component {
                 type="number"
                 className="form-control"
                 id="population"
-                onChange={(evt) =>
-                  this.props.onPopulationChange(evt.target.value)
-                }
+                onChange={(evt) => onPopulationChange(evt.target.value)}
+                value={population}
+                step={500}
               />
             </div>
             <div className="form-group form-check col-lg-6 col-md-3">
@@ -28,9 +37,17 @@ class PopulationInput extends Component {
                   type="checkbox"
                   className="form-check-input my-2"
                   id="commonerBreakdown"
+                  disabled
                 />
                 <label className="form-check-label" htmlFor="commonerBreakdown">
-                  Break down commoners into trades and professions
+                  Break down commoners into trades and professions{" "}
+                  <a
+                    href="https://donjon.bin.sh/fantasy/demographics/"
+                    target="_blank"
+                    title="Vaporware, just use this generator so long :)"
+                  >
+                    <sup>&#x1F517;</sup>
+                  </a>
                 </label>
               </div>
             </div>
@@ -50,7 +67,7 @@ class PopulationInput extends Component {
                 </a>
               </sup>
               <span className="badge badge-light">
-                &nbsp;= {this.props.shapeParameter}
+                &nbsp;= {shapeParameter}
               </span>
             </label>
             <input
@@ -59,11 +76,9 @@ class PopulationInput extends Component {
               id="powerCurveFactor"
               min="0.1"
               max="10"
-              value={this.props.shapeParameter}
+              value={shapeParameter}
               step="0.05"
-              onChange={(evt) =>
-                this.props.onShapeParameterChange(evt.target.value)
-              }
+              onChange={(evt) => onShapeParameterChange(evt.target.value)}
             />
             <p></p>
           </div>
@@ -114,15 +129,24 @@ class PopulationInput extends Component {
           </div>
         </div>
 
-        {
-          // replace this with plotly
-        }
-        <img
-          src={pareto}
-          className="mx-auto"
-          style={{ width: 300, display: "block" }}
-          alt="placeholder"
-        />
+        <div className="mx-auto" style={{ width: 500, display: "block" }}>
+          <Plot
+            data={[
+              {
+                x: popLevels,
+                y: popLevels.map((p) => getPopAtLevel(population, p)),
+                type: "scatter",
+                mode: "lines+markers",
+                marker: { color: "blue" },
+              },
+            ]}
+            layout={{
+              width: 500,
+              height: 350,
+              margin: { t: 10, l: 50, b: 50, r: 50 },
+            }}
+          />
+        </div>
       </div>
     );
   }
