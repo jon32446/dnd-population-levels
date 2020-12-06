@@ -44,6 +44,7 @@ class PopulationInput extends Component {
                   <a
                     href="https://donjon.bin.sh/fantasy/demographics/"
                     target="_blank"
+                    rel="noreferrer"
                     title="Vaporware, just use this generator so long :)"
                   >
                     <sup>&#x1F517;</sup>
